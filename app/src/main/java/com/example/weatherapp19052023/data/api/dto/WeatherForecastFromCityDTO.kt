@@ -1,12 +1,12 @@
 package com.example.weatherapp19052023.data.api.dto
 
 data class WeatherForecastFromCityDTO (
-    val coord: Coord,
-    val weather: List<Weather>,
+    val coord: CoordFromCityDTO,
+    val weatherFromCityDTO: List<WeatherFromCityDTO>,
     val base: String,
-    val main: Main,
+    val mainFromCityDTO: MainFromCityDTO,
     val visibility: Long,
-    val wind: Wind,
+    val windFromCityDTO: WindFromCityDTO,
     val rain: RainFromCityDTO,
     val clouds: CloudsFromCityDTO,
     val dt: Long,
