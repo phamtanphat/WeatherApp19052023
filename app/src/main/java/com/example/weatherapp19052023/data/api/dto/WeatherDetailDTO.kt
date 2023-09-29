@@ -1,6 +1,6 @@
 package com.example.weatherapp19052023.data.api.dto
 
-data class WeatherFromCityDTO(
+data class WeatherDetailDTO(
     val id: Long,
     val main: String,
     val description: String,

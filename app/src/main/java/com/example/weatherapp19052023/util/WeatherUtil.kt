@@ -1,6 +1,8 @@
 package com.example.weatherapp19052023.util
 
-import com.example.weatherapp19052023.data.api.dto.WeatherForecastFromCityDTO
+import com.example.weatherapp19052023.data.api.dto.forecast_7day.Weather7DayDTO
+import com.example.weatherapp19052023.data.api.dto.forecast_7day.WeatherForecast7dayDTO
+import com.example.weatherapp19052023.data.api.dto.search_from_city.WeatherForecastFromCityDTO
 import com.example.weatherapp19052023.data.model.Weather
 
 object WeatherUtil {
@@ -9,13 +11,31 @@ object WeatherUtil {
         return Weather().apply {
             cityName = weatherDTO.name
             time = weatherDTO.dt
-            status = weatherDTO.weatherFromCityDTO.getOrNull(0)?.main ?: ""
+            status = weatherDTO.weatherDetailDTO.getOrNull(0)?.main ?: ""
             temp = weatherDTO.mainFromCityDTO.temp
             tempMin = weatherDTO.mainFromCityDTO.tempMin
             tempMax = weatherDTO.mainFromCityDTO.tempMax
             feelsLike = weatherDTO.mainFromCityDTO.feelsLike
-            icon = weatherDTO.weatherFromCityDTO.getOrNull(0)?.icon ?: ""
+            icon = weatherDTO.weatherDetailDTO.getOrNull(0)?.icon ?: ""
             humidity = weatherDTO.mainFromCityDTO.humidity
         }
+    }
+
+    fun parserWeatherForecast7DayDTO(weatherForecast7dayDTO: WeatherForecast7dayDTO): List<Weather> {
+        val listWeather = mutableListOf<Weather>()
+        weatherForecast7dayDTO.listWeather7DayDTO.forEach {
+            val weather = Weather().apply {
+                cityName = weatherForecast7dayDTO.city.name
+                time = it.dt
+                status = it.weather.getOrNull(0)?.main ?: ""
+                temp = it.temp7DayDTO.mainFromCityDTO.temp
+                tempMin = weatherDTO.mainFromCityDTO.tempMin
+                tempMax = weatherDTO.mainFromCityDTO.tempMax
+                feelsLike = weatherDTO.mainFromCityDTO.feelsLike
+                icon = weatherDTO.weatherDetailDTO.getOrNull(0)?.icon ?: ""
+                humidity = weatherDTO.mainFromCityDTO.humidity
+            }
+        }
+        return listWeather
     }
 }

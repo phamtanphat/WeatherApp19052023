@@ -1,11 +1,12 @@
-package com.example.weatherapp19052023.data.api.dto
+package com.example.weatherapp19052023.data.api.dto.search_from_city
 
+import com.example.weatherapp19052023.data.api.dto.WeatherDetailDTO
 import com.google.gson.annotations.SerializedName
 
 data class WeatherForecastFromCityDTO (
     val coord: CoordFromCityDTO,
     @SerializedName("weather")
-    val weatherFromCityDTO: List<WeatherFromCityDTO>,
+    val weatherDetailDTO: List<WeatherDetailDTO>,
     val base: String,
     @SerializedName("main")
     val mainFromCityDTO: MainFromCityDTO,

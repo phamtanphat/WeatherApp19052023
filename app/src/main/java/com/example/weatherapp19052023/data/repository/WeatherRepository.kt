@@ -2,7 +2,8 @@ package com.example.weatherapp19052023.data.repository
 
 import com.example.weatherapp19052023.common.AppConstant
 import com.example.weatherapp19052023.data.api.RetrofitClient
-import com.example.weatherapp19052023.data.api.dto.WeatherForecastFromCityDTO
+import com.example.weatherapp19052023.data.api.dto.forecast_7day.WeatherForecast7dayDTO
+import com.example.weatherapp19052023.data.api.dto.search_from_city.WeatherForecastFromCityDTO
 
 class WeatherRepository {
     private val apiService = RetrofitClient.getApiService()
@@ -11,6 +12,16 @@ class WeatherRepository {
         return apiService.getWeatherFromCity(
             appID = AppConstant.APP_ID,
             units = AppConstant.UNITS,
+            q = cityName
+        )
+    }
+
+    suspend fun requestWeatherFromCity7Day(cityName: String): WeatherForecast7dayDTO {
+        return apiService.getWeatherFromCity7Day(
+            appID = AppConstant.APP_ID,
+            units = AppConstant.UNITS,
+            cnt = AppConstant.CNT,
+            model = AppConstant.MODEL,
             q = cityName
         )
     }
