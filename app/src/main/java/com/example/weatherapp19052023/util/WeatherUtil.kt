@@ -2,6 +2,7 @@ package com.example.weatherapp19052023.util
 
 import com.example.weatherapp19052023.data.api.dto.forecast_7day.Weather7DayDTO
 import com.example.weatherapp19052023.data.api.dto.forecast_7day.WeatherForecast7dayDTO
+import com.example.weatherapp19052023.data.api.dto.forecast_hourly.WeatherForecastHourlyDTO
 import com.example.weatherapp19052023.data.api.dto.search_from_city.WeatherForecastFromCityDTO
 import com.example.weatherapp19052023.data.model.Weather
 
@@ -34,6 +35,25 @@ object WeatherUtil {
                 feelsLike = it.feelsLike7DayDTO.day
                 icon = it.listWeatherDetailDTO.firstOrNull()?.icon ?: ""
                 humidity = it.humidity.toInt()
+            }
+            listWeather.add(weather)
+        }
+        return listWeather
+    }
+
+    fun parserWeatherForecastHourlyDTO(weatherForecastHourlyDTO: WeatherForecastHourlyDTO): List<Weather> {
+        val listWeather = mutableListOf<Weather>()
+        weatherForecastHourlyDTO.list.map {
+            val weather = Weather().apply {
+                cityName = weatherForecastHourlyDTO.city.name
+                time = it.dt
+                status = it.weather.firstOrNull()?.main ?: ""
+                temp = it.mainHourlyDTO.temp
+                tempMin = it.mainHourlyDTO.tempMin
+                tempMax = it.mainHourlyDTO.tempMax
+                feelsLike = it.mainHourlyDTO.feelsLike
+                icon = it.weather.firstOrNull()?.icon ?: ""
+                humidity = it.mainHourlyDTO.humidity.toInt()
             }
             listWeather.add(weather)
         }

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp19052023.common.AppResource
 import com.example.weatherapp19052023.data.api.dto.forecast_7day.WeatherForecast7dayDTO
+import com.example.weatherapp19052023.data.api.dto.forecast_hourly.WeatherForecastHourlyDTO
+import com.example.weatherapp19052023.data.api.dto.forecast_hourly.WeatherHourlyDTO
 import com.example.weatherapp19052023.data.api.dto.search_from_city.WeatherForecastFromCityDTO
 import com.example.weatherapp19052023.data.model.Weather
 import com.example.weatherapp19052023.data.repository.WeatherRepository
@@ -69,15 +71,15 @@ class MainViewModel(
     fun requestWeatherHourly(cityName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val weatherForecast7dayDTO: WeatherForecast7dayDTO = async {
-                    weatherRepository.requestWeatherFromCity7Day(cityName)
+                val weatherForecastHourlyDTO: WeatherForecastHourlyDTO = async {
+                    weatherRepository.requestWeatherHourly(cityName)
                 }.await()
 
-                val listWeather = WeatherUtil.parserWeatherForecast7DayDTO(weatherForecast7dayDTO)
+                val listWeather = WeatherUtil.parserWeatherForecastHourlyDTO(weatherForecastHourlyDTO)
 
-                launchOnMain { listWeather7DayLiveData.value = AppResource.Success(listWeather) }
+                launchOnMain { listWeatherHourlyLiveData.value = AppResource.Success(listWeather) }
             } catch (e: Exception) {
-                launchOnMain { listWeather7DayLiveData.value = AppResource.Error(e.message ?: "") }
+                launchOnMain { listWeatherHourlyLiveData.value = AppResource.Error(e.message ?: "") }
             } finally {
                 launchOnMain { loadingLiveData.value = false }
             }

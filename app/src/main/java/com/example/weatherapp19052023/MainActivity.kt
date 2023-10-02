@@ -38,5 +38,11 @@ class MainActivity : AppCompatActivity() {
 //        }
 //
 //        mainViewModel.requestWeatherFromCity7Day("Hanoi")
+
+        mainViewModel.getListWeatherHourlyLiveData().observe(this) {
+            Log.d("BBB", it.data.toString())
+        }
+
+        mainViewModel.requestWeatherHourly("Hanoi")
     }
 }
