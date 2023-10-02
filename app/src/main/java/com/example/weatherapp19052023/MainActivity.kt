@@ -23,14 +23,20 @@ class MainActivity : AppCompatActivity() {
             }
         })[MainViewModel::class.java]
 
-        mainViewModel.getLoadingLiveData().observe(this) {
-            Log.d("BBB", "Loading: $it")
-        }
+//        mainViewModel.getLoadingLiveData().observe(this) {
+//            Log.d("BBB", "Loading: $it")
+//        }
+//
+//        mainViewModel.getWeatherLiveData().observe(this) {
+//            Log.d("BBB", it.data.toString())
+//        }
+//
+//        mainViewModel.requestWeatherFromCity("Hanoi")
 
-        mainViewModel.getWeatherLiveData().observe(this) {
+        mainViewModel.getListWeather7DayLiveData().observe(this) {
             Log.d("BBB", it.data.toString())
         }
 
-        mainViewModel.requestWeatherFromCity("Hanoi")
+        mainViewModel.requestWeatherFromCity7Day("Hanoi")
     }
 }

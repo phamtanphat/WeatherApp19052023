@@ -23,18 +23,19 @@ object WeatherUtil {
 
     fun parserWeatherForecast7DayDTO(weatherForecast7dayDTO: WeatherForecast7dayDTO): List<Weather> {
         val listWeather = mutableListOf<Weather>()
-        weatherForecast7dayDTO.listWeather7DayDTO.forEach {
+        weatherForecast7dayDTO.listWeather7DayDTO.map {
             val weather = Weather().apply {
                 cityName = weatherForecast7dayDTO.city.name
                 time = it.dt
-                status = it.weather.getOrNull(0)?.main ?: ""
-                temp = it.temp7DayDTO.mainFromCityDTO.temp
-                tempMin = weatherDTO.mainFromCityDTO.tempMin
-                tempMax = weatherDTO.mainFromCityDTO.tempMax
-                feelsLike = weatherDTO.mainFromCityDTO.feelsLike
-                icon = weatherDTO.weatherDetailDTO.getOrNull(0)?.icon ?: ""
-                humidity = weatherDTO.mainFromCityDTO.humidity
+                status = it.listWeatherDetailDTO.firstOrNull()?.main ?: ""
+                temp = it.temp7DayDTO.day
+                tempMin = it.temp7DayDTO.min
+                tempMax = it.temp7DayDTO.max
+                feelsLike = it.feelsLike7DayDTO.day
+                icon = it.listWeatherDetailDTO.firstOrNull()?.icon ?: ""
+                humidity = it.humidity.toInt()
             }
+            listWeather.add(weather)
         }
         return listWeather
     }

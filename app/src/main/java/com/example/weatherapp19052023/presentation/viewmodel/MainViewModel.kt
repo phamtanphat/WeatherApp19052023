@@ -25,7 +25,7 @@ class MainViewModel(
 
     fun getLoadingLiveData(): LiveData<Boolean> = loadingLiveData
     fun getWeatherLiveData(): LiveData<AppResource<Weather>> = weatherLiveData
-    fun getWeather7DayLiveData(): LiveData<AppResource<List<Weather>>> = listWeather7DayLiveData
+    fun getListWeather7DayLiveData(): LiveData<AppResource<List<Weather>>> = listWeather7DayLiveData
 
     fun requestWeatherFromCity(cityName: String) {
         loadingLiveData.value = true
@@ -53,9 +53,9 @@ class MainViewModel(
                     weatherRepository.requestWeatherFromCity7Day(cityName)
                 }.await()
 
-                val weather = WeatherUtil.parserWeatherForecast7DayDTO(weatherForecast7dayDTO)
+                val listWeather = WeatherUtil.parserWeatherForecast7DayDTO(weatherForecast7dayDTO)
 
-                launchOnMain { weatherLiveData.value = AppResource.Success(weather) }
+                launchOnMain { listWeather7DayLiveData.value = AppResource.Success(listWeather) }
             } catch (e: Exception) {
                 launchOnMain { listWeather7DayLiveData.value = AppResource.Error(e.message ?: "") }
             } finally {
