@@ -22,10 +22,12 @@ class MainViewModel(
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val weatherLiveData = MutableLiveData<AppResource<Weather>>()
     private val listWeather7DayLiveData = MutableLiveData<AppResource<List<Weather>>>()
+    private val listWeatherHourlyLiveData = MutableLiveData<AppResource<List<Weather>>>()
 
     fun getLoadingLiveData(): LiveData<Boolean> = loadingLiveData
     fun getWeatherLiveData(): LiveData<AppResource<Weather>> = weatherLiveData
     fun getListWeather7DayLiveData(): LiveData<AppResource<List<Weather>>> = listWeather7DayLiveData
+    fun getListWeatherHourlyLiveData(): LiveData<AppResource<List<Weather>>> = listWeatherHourlyLiveData
 
     fun requestWeatherFromCity(cityName: String) {
         loadingLiveData.value = true
@@ -47,6 +49,24 @@ class MainViewModel(
     }
 
     fun requestWeatherFromCity7Day(cityName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val weatherForecast7dayDTO: WeatherForecast7dayDTO = async {
+                    weatherRepository.requestWeatherFromCity7Day(cityName)
+                }.await()
+
+                val listWeather = WeatherUtil.parserWeatherForecast7DayDTO(weatherForecast7dayDTO)
+
+                launchOnMain { listWeather7DayLiveData.value = AppResource.Success(listWeather) }
+            } catch (e: Exception) {
+                launchOnMain { listWeather7DayLiveData.value = AppResource.Error(e.message ?: "") }
+            } finally {
+                launchOnMain { loadingLiveData.value = false }
+            }
+        }
+    }
+
+    fun requestWeatherHourly(cityName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val weatherForecast7dayDTO: WeatherForecast7dayDTO = async {
