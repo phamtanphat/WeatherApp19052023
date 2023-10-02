@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
 //
 //        mainViewModel.requestWeatherFromCity("Hanoi")
 
-        mainViewModel.getListWeather7DayLiveData().observe(this) {
-            Log.d("BBB", it.data.toString())
-        }
-
-        mainViewModel.requestWeatherFromCity7Day("Hanoi")
+//        mainViewModel.getListWeather7DayLiveData().observe(this) {
+//            Log.d("BBB", it.data.toString())
+//        }
+//
+//        mainViewModel.requestWeatherFromCity7Day("Hanoi")
     }
 }
